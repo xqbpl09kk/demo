@@ -27,12 +27,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         DecodeFrame.decode(this , callback )
-//        val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
-//        reflectTNHandler(toast)
-//        toast.show()
-//        Thread.sleep(5000) ;
-//        val func = NewDemo.
-//        NewDemo.test()
+        val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
+        reflectTNHandler(toast)
+        toast.show()
+        Thread.sleep(5000) ;
         val locker = Locked()
         locker.lock()
         locker.doSomeThing()
