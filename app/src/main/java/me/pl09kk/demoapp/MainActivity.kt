@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         val locker = Locked()
         locker.lock()
         locker.doSomeThing()
+
+
+
     }
 
 
