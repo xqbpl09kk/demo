@@ -1,20 +1,15 @@
 package me.pl09kk.demoapp
 
+import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.concurrent.thread
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,23 +21,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        DecodeFrame.decode(this , callback )
-        val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
-        reflectTNHandler(toast)
-        toast.show()
-        Thread.sleep(5000) ;
-        val locker = Locked()
-        locker.lock()
-        locker.doSomeThing()
-
-
+        DecodeFrame.decode(this , decodeCallback)
+        startService(Intent(this , WorkService::class.java))
+//        val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
+//        reflectTNHandler(toast)
+//        toast.show()
+//        Thread.sleep(5000) ;
+//        val locker = Locked()
+//        locker.lock()
+//        locker.doSomeThing()
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(Intent(this , WorkService::class.java))
+    }
 
-
-
-    private val callback  =  object : Callback {
+    private val decodeCallback  =  object : Callback {
         override fun callback(bitmap:Bitmap) {
             runOnUiThread {
                 list.add(bitmap)
@@ -52,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun initAdapter(){
         recyclerView?.layoutManager = LinearLayoutManager(this@MainActivity
                 , LinearLayoutManager.HORIZONTAL , false)
@@ -76,14 +73,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun createItemView() : View{
         return ImageView(this@MainActivity).apply {
-            this.layoutParams = RecyclerView.LayoutParams(200 , 200).also { it.leftMargin = 20 }
-            this.scaleType = ImageView.ScaleType.CENTER_CROP
+            layoutParams = RecyclerView.LayoutParams(200 , 200).apply { leftMargin = 20 }
+            scaleType = ImageView.ScaleType.CENTER_CROP
         }
     }
 
     private fun initItemHolder(itemHolder : RecyclerView.ViewHolder)  {
         itemHolder.itemView.setOnClickListener {
             Toast.makeText(this@MainActivity , "position : ${itemHolder.adapterPosition}" , Toast.LENGTH_LONG).show()
+            stopService(Intent(this , WorkService::class.java))
         }
     }
 }

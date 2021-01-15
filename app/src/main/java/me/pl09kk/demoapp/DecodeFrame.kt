@@ -19,8 +19,7 @@ object DecodeFrame  {
     var num = 0L
 
     fun decode(context : Context, runnable: Callback){
-
-
+        num = 0
         thread {
             val start = System.currentTimeMillis()
             val url: Uri = Uri.parse("android.resource://" + context.packageName + "/" + R.raw.basketball)
