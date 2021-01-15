@@ -23,13 +23,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         DecodeFrame.decode(this , decodeCallback)
         startService(Intent(this , WorkService::class.java))
-//        val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
-//        reflectTNHandler(toast)
-//        toast.show()
-//        Thread.sleep(5000) ;
-//        val locker = Locked()
-//        locker.lock()
-//        locker.doSomeThing()
+        val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
+        reflectTNHandler(toast)
+        toast.show()
+        Thread.sleep(5000) ;
+        val locker = Locked()
+        locker.lock()
+        locker.doSomeThing()
 
     }
 
