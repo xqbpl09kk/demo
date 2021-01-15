@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         val locker = Locked()
         locker.lock()
         locker.doSomeThing()
-
+        EdLog.e("MainActivity" , "create in master !!!")
     }
 
     override fun onDestroy() {
