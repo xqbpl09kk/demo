@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 , LinearLayoutManager.HORIZONTAL , false)
         recyclerView?.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                    : RecyclerView.ViewHolder {
+                    : RecyclerView.ViewHolder {123
                 return object : RecyclerView.ViewHolder(createItemView()) {
                     init { initItemHolder(this) }
                 }
