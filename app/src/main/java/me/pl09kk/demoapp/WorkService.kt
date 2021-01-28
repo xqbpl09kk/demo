@@ -50,6 +50,8 @@ class WorkService : Service() , Runnable {
     private fun stopWork (){
         runningFlag = false
         workThread.interrupt()
+        EdLog.e(TAG  , "work thread is interrupted ? ${workThread.isInterrupted}")
+        EdLog.e(TAG  , "work thread is alive ? ${workThread.isAlive}")
     }
 
     override fun run() {

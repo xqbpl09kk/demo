@@ -2,20 +2,25 @@ package me.pl09kk.demoapp
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private var recyclerView :RecyclerView ?= null
     private val list = arrayListOf<Bitmap>()
 
+    private val data = arrayListOf<String>()
+    val test = TestThread() ;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +31,61 @@ class MainActivity : AppCompatActivity() {
         val toast = Toast.makeText(this, "Toast" , Toast.LENGTH_LONG)
         reflectTNHandler(toast)
         toast.show()
-        Thread.sleep(5000) ;
-        val locker = Locked()
-        locker.lock()
-        locker.doSomeThing()
+        runOnUiThread {  }
+//        test.start()
+//        start() ;
+        findViewById<Button>(R.id.btn).setOnClickListener {
+//            test.bind()
+            bind() ;
+        }
+
+        PackageUtils.getClasses(javaClass.`package`.name)
+//        Thread.sleep(5000) ;
+//        val locker = Locked()
+//        locker.lock()
+//        locker.doSomeThing()
         EdLog.e("MainActivity" , "create in master !!!")
+        test() ;
     }
+
+
+    @Throws(InterruptedException::class)
+    fun bind() {
+        synchronized (DataHolder::class.java){
+            for (item in test.holder.data) {
+                Thread.sleep(1)
+//                val new = item.toString()
+            }
+        }
+
+//        synchronized(data){
+//        }
+    }
+
+    internal class DataHolder {
+        val data = ArrayList<String>()
+    }
+
+    private val holder = DataHolder()
+    private var count = 0
+
+    fun start() {
+        Thread(Runnable {
+            while (true) {
+                if (holder.data.size > 1000) {
+                    holder.data.removeAt(holder.data.size - 1)
+                }
+                holder.data.add("1233")
+                Log.e("Thread", "data is = " + count++)
+                try {
+                    Thread.sleep(10)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+        }).start()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

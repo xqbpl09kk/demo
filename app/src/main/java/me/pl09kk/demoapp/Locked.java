@@ -8,6 +8,8 @@ public class Locked {
     private final Object b =new Object();
 
     public void lock(){
+        PackageUtils utils = new PackageUtils() ;
+        utils.clone() ;
         new Thread(() -> {
             synchronized (a){
                 Log.e("Log111" , "locked a from 1 ")  ;
